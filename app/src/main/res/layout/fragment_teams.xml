@@ -10,39 +10,40 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Men's Hockey"
             android:id="@+id/mensHockey"
+            android:layout_weight="1"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
             />
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Womens's Hockey"
             android:id="@+id/womensHockey"
+            android:layout_weight="1"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
             />
+
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Men's Basketball"
-            android:id="@+id/mensBasketball"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Women's BasketBall"
-            android:id="@+id/womensBasketBall"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Men's Lacrosse"
             android:id="@+id/mensLacrosse"
+            android:layout_weight="1"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
             />
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Women's Lacrosse"
             android:id="@+id/womensLacrosse"
+            android:layout_weight="1"
+            android:paddingBottom="5sp"
+            android:paddingTop="5sp"
             />
     </LinearLayout>
 

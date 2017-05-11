@@ -1,9 +1,56 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.andrew.sportapp.NewsFragment"
-    android:id="@+id/newsFragment">
+    android:id="@+id/newsFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mLax"
+            android:layout_weight="1"
+            android:text="Men's Lacrosse"
+            android:textSize="13sp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wLax"
+            android:layout_weight="1"
+            android:text="Women's Lacrosse"
+            android:textSize="13sp"
+            />
+        <Button
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/mHockey"
+            android:text="Men's Hockey"
+            android:textSize="13sp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wHockey"
+            android:layout_weight="1"
+            android:text="Women's Hockey"
+            android:textSize="13sp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/homePage"
+            android:layout_weight="1"
+            android:text="Home Page"
+            android:textSize="13sp"/>
+
+
+    </LinearLayout>
 
     <WebView
         android:layout_width="match_parent"
@@ -11,4 +58,4 @@
         android:id="@+id/webViewId">
     </WebView>
 
-</FrameLayout>
+</LinearLayout>

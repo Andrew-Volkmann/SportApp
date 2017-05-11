@@ -16,16 +16,16 @@ import android.widget.Button;
 public class TeamsFragment extends Fragment {
 
     Button womensHockey= null;
-    public static final String WHOCKEYID = "Women's Hockey";
+    public static final String W_HOCKEY_ID = "Women's Hockey";
 
     Button mensHockey=null;
-    public static final String MHOCKEYID = "Men's Hockey";
+    public static final String M_HOCKEY_ID = "Men's Hockey";
 
-    Button womensBasketball=null;
-    public static final String WBASKETBALLID = "Women's Basketball";
+    Button womens_lax=null;
+    public static final String W_LAX_ID = "Women's Lacrosse";
 
-    Button mensBasketball=null;
-    public static final String MBASKETBALLID = "Men's Basketball";
+    Button mens_lax=null;
+    public static final String M_LAX_ID = "Men's Lacrosse";
 
     public TeamsFragment() {
         // Required empty public constructor
@@ -36,42 +36,43 @@ public class TeamsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_teams, container, false);
 
-        womensBasketball = (Button) v.findViewById(R.id.womensBasketBall);
-        mensBasketball = (Button) v.findViewById(R.id.mensBasketball);
+        womens_lax = (Button) v.findViewById(R.id.womensLacrosse);
+        mens_lax = (Button) v.findViewById(R.id.mensLacrosse);
         mensHockey = (Button) v.findViewById(R.id.mensHockey);
         womensHockey = (Button) v.findViewById(R.id.womensHockey);
 
-        womensBasketball.setOnClickListener(new View.OnClickListener() {
+        womens_lax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToTeamsActivity(WBASKETBALLID);
+                sendToTeamsActivity(W_LAX_ID);
             }
         });
 
-        mensBasketball.setOnClickListener(new View.OnClickListener() {
+        mens_lax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToTeamsActivity(MBASKETBALLID);
+                sendToTeamsActivity(M_LAX_ID);
             }
         });
 
         mensHockey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToTeamsActivity(MHOCKEYID);
+                sendToTeamsActivity(M_HOCKEY_ID);
             }
         });
 
         womensHockey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToTeamsActivity(WHOCKEYID);
+                sendToTeamsActivity(W_HOCKEY_ID);
             }
         });
 
         return v;
     }
     public void sendToTeamsActivity(String team){
+        MainActivity.haveIntent = true;
 
         Intent myIntent = new Intent(getActivity(), teamsActivity.class);
         myIntent.putExtra("team", team);

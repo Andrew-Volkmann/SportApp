@@ -11,12 +11,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,17 +37,27 @@ public class ScoresFragment extends Fragment {
 
     ArrayList<String> games = new ArrayList<>();
 
+
+
     private Button back_button = null;
     private Button forward_button = null;
     private FragmentManager manager = null;
     private Calendar target_date= null;
     private int number_of_fragments;
+    private Calendar today_calendar;
     private Date d = null;
     private int current_month;
     private int current_day;
     private int current_year;
     private TextView display_date = null;
     private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+    public static ArrayList<String> score_data = new ArrayList<>();
+    String dt = "";
+
+    private String stringURL = "";
+    URL url;
+    HttpURLConnection connect;
+    private ArrayList<Thread> allThreads = new ArrayList<>();
 
 
     public ScoresFragment() {
@@ -56,31 +77,30 @@ public class ScoresFragment extends Fragment {
         manager=getFragmentManager();
         number_of_fragments=0;
 
+
         // get my date
         d = new Date();
-        current_month= d.getMonth();
+        current_month= d.getMonth()+1;
         current_day = d.getDate();
         current_year = (d.getYear()+1900);
         target_date = Calendar.getInstance();
+        dt =""+current_month+"-"+current_day+"-"+current_year;
 
-        String dt =""+current_month+"-"+current_day+"-"+current_year;
+
 
         try {
-            target_date.setTime(sdf.parse(dt));
-        } catch (ParseException e) {
+            populateScores();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println(sdf.format(target_date.getTime()));
-
-        System.out.println(target_date.get(Calendar.DAY_OF_MONTH));
-
-
-        populateScores();
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                back_clicked();
+                try {
+                    back_clicked();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         display_date.setOnClickListener(new View.OnClickListener() {
@@ -93,10 +113,16 @@ public class ScoresFragment extends Fragment {
         forward_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                forward_clicked();
+                try {
+                    forward_clicked();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
+        SimpleDateFormat sdft = new SimpleDateFormat("MM/dd/yyyy");
+        System.out.println(sdft.format(target_date.getTime()));
 
 
         change_score_date();
@@ -104,13 +130,38 @@ public class ScoresFragment extends Fragment {
         return v;
     }
     //TODO put in the days date depending on what i want to find
-    public void populateScores(){
-        getData scoreData = new getData();
-        //TODO put in the days date
-        ArrayList<String> data = scoreData.get_scores(target_date);
-        for(int x = 0; x<data.size(); x++){
+    public void populateScores() throws InterruptedException {
+        score_data.clear();
+        getData MHS = new getData(MainActivity.MHS, target_date);
+        MHS.execute();
+
+
+        getData MLS = new getData(MainActivity.MLS, target_date);
+        MLS.execute();
+
+        getData WHS = new getData(MainActivity.WHS, target_date);
+        WHS.execute();
+
+        getData WLS = new getData(MainActivity.WLS, target_date);
+        WLS.execute();
+
+        try {
+            MHS.get(2300, TimeUnit.MILLISECONDS);
+            MLS.get(2300, TimeUnit.MILLISECONDS);
+            WHS.get(2300, TimeUnit.MILLISECONDS);
+            WLS.get(2300, TimeUnit.MILLISECONDS);
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        System.out.println(score_data.size());
+
+
+        for(int x = 0; x<score_data.size(); x++){
             number_of_fragments = number_of_fragments+1;
-            String [] gameArray = data.get(x).split(",");
+            String [] gameArray = score_data.get(x).split(",");
             Score_Plate_Fragment plate = new Score_Plate_Fragment();
             plate.populate(gameArray);
             FragmentTransaction transaction = manager.beginTransaction();
@@ -118,14 +169,14 @@ public class ScoresFragment extends Fragment {
             transaction.commit();
         }
     }
-    public void forward_clicked(){
+    public void forward_clicked() throws InterruptedException {
         deleteFragments();
         target_date.add(Calendar.DATE, 1);
         populateScores();
         change_score_date();
     }
 
-    public void back_clicked(){
+    public void back_clicked() throws InterruptedException {
         deleteFragments();
         target_date.add(Calendar.DATE, -1);
         populateScores();
@@ -137,8 +188,6 @@ public class ScoresFragment extends Fragment {
     }
 
     public void reset_date(){
-        String dt =""+current_month+"-"+current_day+"-"+current_year;
-        System.out.println("reset is running and here is the date "+dt);
         try {
             target_date.setTime(sdf.parse(dt));
         } catch (ParseException e) {
@@ -161,3 +210,5 @@ public class ScoresFragment extends Fragment {
     }
 
 }
+
+

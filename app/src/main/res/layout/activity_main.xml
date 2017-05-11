@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:id="@+id/fragmentContainer"
     tools:context="com.example.andrew.sportapp.MainActivity"
-    android:background="#FFee00">
+    android:background="#F00000">
 
     <LinearLayout
         android:layout_width="match_parent"

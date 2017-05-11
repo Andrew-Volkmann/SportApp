@@ -3,6 +3,7 @@ package com.example.andrew.sportapp;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,23 +20,45 @@ public class MainActivity extends AppCompatActivity {
     private Button teamsButton;
     private int fragmentCheck; //news is 1, scores is 2, teams is 3
     private Date target_date;
+    static final String MHR = "http://10.70.1.55/men_hockey_roster.php";
+    static final String MHS = "http://10.70.1.55/men_hockey_schedule.php";
+
+    static final String WHR = "http://10.70.1.55/women_hockey_roster.php";
+    static final String WHS = "http://10.70.1.55/women_hockey_schedule.php";
+
+    static final String WLR = "http://10.70.1.55/women_lax_roster.php";
+    static final String WLS = "http://10.70.1.55/women_lax_schedule.php";
+
+    static final String MLR = "http://10.70.1.55/men_lax_roster.php";
+    static final String MLS = "http://10.70.1.55/men_lax_schedule.php";
+
+    static boolean haveIntent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         manager=getFragmentManager();
+        if(haveIntent){
+            fragmentCheck =3;
+            TeamsFragment teamsFragment = new TeamsFragment();
+            FragmentTransaction transactionAdd = manager.beginTransaction();
+            transactionAdd.add(R.id.sectionViews, teamsFragment, "teams");
+            transactionAdd.commit();
+        }else{
+            // setup the news fragment which acts as the homepage
+            NewsFragment newsFragment = new NewsFragment();
+            FragmentTransaction transactionAdd = manager.beginTransaction();
+            transactionAdd.add(R.id.sectionViews, newsFragment, "news");
+            transactionAdd.commit();
+        }
+        haveIntent=false;
 
         // get all the buttons
         newsButton=(Button)findViewById(R.id.newsButton);
         scoresButton=(Button)findViewById(R.id.scoresButton);
         teamsButton=(Button)findViewById(R.id.teamsButton);
 
-        // setup the news fragment which acts as the homepage
-        NewsFragment newsFragment = new NewsFragment();
-        FragmentTransaction transactionAdd = manager.beginTransaction();
-        transactionAdd.add(R.id.sectionViews, newsFragment, "news");
-        transactionAdd.commit();
 
         //set the button click listenters
         newsButton.setOnClickListener(new View.OnClickListener() {

@@ -42,6 +42,11 @@ public class Schedule_Plate_Fragment extends Fragment {
         home_away = (TextView) v.findViewById(R.id.home_away);
         win_loss = (TextView) v.findViewById(R.id.win_loss);
         score_of_game = (TextView) v.findViewById(R.id.score_of_game);
+        for(int x = 0; x<data.length; x++){
+            System.out.println("index " + x + "has: " + data[x]);
+
+        }
+
 
         String [] array_for_formatting = data[0].split("/");
         Date date_of_game = create_date(array_for_formatting);
@@ -50,7 +55,7 @@ public class Schedule_Plate_Fragment extends Fragment {
         date.setText(data[0]+" "+data[1]);
 
         otherTeam.setText(data[5]);
-        if(data[2].equals("H")){
+        if(data[2].replaceAll("\\s+","").equals("H")){
             home_away.setText("Home");
         }else{
             home_away.setText("Away");
@@ -62,7 +67,7 @@ public class Schedule_Plate_Fragment extends Fragment {
             s.append(data[4] + " -" + data[6]);
             score_of_game.setText("");
             score_of_game.append(s.toString());
-            if(data[7].equals("W")){
+            if(data[7].replaceAll("\\s+","").equals("W")){
                 win_loss.setText("Win");
             }else{
                 win_loss.setText("Loss");
